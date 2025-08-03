@@ -19,8 +19,8 @@ export type Book = {
 
 
 // Then, in your JavaScript file, you can reference it like this:
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? '' // Empty for production (same domain)
+const API_BASE_URL = process.env.NODE_ENV === 'development'
+  ? '/api' // Empty for production (same domain)
   : process.env.REACT_APP_API_BASE_URL; // Use the variable from your .env file
 
 // API service functions - FIXED to match backend response format

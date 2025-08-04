@@ -18,7 +18,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 sm:mb-4 text-yellow-700">ਪੰਜਾਬੀ ਕਿਤਾਬਾਂ ਦੀ</span>
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 sm:mb-4 text-yellow-700">ਪੰਜਾਬੀ ਕਿਤਾਬਾਂ ਦਾ</span>
               <span className="bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-600 bg-clip-text text-transparent">
                 Digital Sikh Pustkalya
               </span>
@@ -30,11 +30,12 @@ const Index: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
              
-              <button className="w-full sm:w-auto bg-gradient-to-r from-orange-400 to-yellow-400 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg font-bold hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center">
+              <Link to="/main-content"><button className="w-full sm:w-auto bg-gradient-to-r from-orange-400 to-yellow-400 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg font-bold hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center">
                 <Eye className="w-5 h-5 mr-2" />
-                <Link to="/main-content">Explore Library</Link>
+                Explore Library
                 <ChevronRight className="w-5 h-5 ml-2" />
               </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -108,11 +108,7 @@ const Header: React.FC = () => {
 
           {/* Mobile Links */}
           <div className="d-flex flex-column gap-3">
-            <button className="btn btn-light d-flex align-items-center w-100 text-start p-3 rounded-3" onClick={closeMobileMenu}>
-              <Bell size={24} className="me-3" />
-              <span className="fs-5">Notifications</span>
-              <span className="badge rounded-pill bg-danger ms-auto border border-white p-1">1</span>
-            </button>
+            
 
             <div className="d-flex align-items-center p-3 rounded-3 bg-light-subtle-hover cursor-pointer" onClick={closeMobileMenu}>              
             </div>

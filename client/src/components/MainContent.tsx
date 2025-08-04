@@ -16,12 +16,12 @@ export type Book = {
   downloadLink: string;
 };
 
+// API Base URL - make sure this matches your backend
+// With:
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? '' // Empty for production (same domain)
+  : 'http://localhost:5000/api'; // For local development
 
-
-// Then, in your JavaScript file, you can reference it like this:
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/api' // Empty for production (same domain)
-  :'https://digitalsikhlibrary.vercel.app/api'; // Use the variable from your .env file
 
 // API service functions - FIXED to match backend response format
 const bookService = {

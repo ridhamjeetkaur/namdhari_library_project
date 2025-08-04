@@ -11,9 +11,9 @@ type Book = {
   link?: string;
   downloadLink?: string;
 };
-
+const SERVER_URL = 'https://namdhari-library-project.onrender.com/';
 const BookCard = ({ book }: { book: Book }) => {
-  const fullCoverUrl = `${process.env.SERVER_URL}${book.cover}`;
+  const fullCoverUrl = `${SERVER_URL}${book.cover}`;
   const handleQuickAction = (e: React.MouseEvent, action: 'read' | 'download') => {
     e.stopPropagation(); // Prevent modal from opening
     
@@ -32,7 +32,10 @@ const BookCard = ({ book }: { book: Book }) => {
           src={fullCoverUrl}
           alt={book.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          
+          onError={(e) => {
+            // Fallback for missing images
+            (e.target as HTMLImageElement).src = '/src/assets/images/book-placeholder.png';
+          }}
         />
         
         {/* Rating Badge */}

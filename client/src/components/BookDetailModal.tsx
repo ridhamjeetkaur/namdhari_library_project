@@ -44,8 +44,9 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
     reviews: (book as any).reviews || Math.floor(Math.random() * 200) + 50,
     readingTime: Math.ceil(((book as any).pages || 300) / 250) // ~250 words per page, 250 words per minute
   };
+const SERVER_URL = 'https://namdhari-library-project.onrender.com/';
 
-   const fullCoverUrl = `${process.env.SERVER_URL}${book.cover}`;
+   const fullCoverUrl = `${SERVER_URL}${book.cover}`;
 
   return (
     <>

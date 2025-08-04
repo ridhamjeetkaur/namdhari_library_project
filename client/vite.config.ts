@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // Your Express server port
+        target: 'https://namdhari-library-project.onrender.com', // Your Express server port
         changeOrigin: true
       }
     }

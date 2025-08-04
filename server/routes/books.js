@@ -1,18 +1,17 @@
-// routes/books.js - Book routes with simplified MongoDB schema
+// routes/books.js - Raw MongoDB version
 import express from 'express';
-import Book from '../models/Book.js';
+import { getDb } from '../db.js';
+import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 
 /**
- * Helper function to transform Mongoose document _id to 'id' for frontend
- * @param {Object|Array} data - Single book object or array of book objects
- * @returns {Object|Array} - Transformed data with 'id' instead of '_id'
+ * Helper function to transform MongoDB _id to 'id' for frontend
  */
 const transformBookData = (data) => {
     if (Array.isArray(data)) {
         return data.map(book => ({
-            id: book._id ? book._id.toString() : undefined, // Ensure _id exists before toString
+            id: book._id ? book._id.toString() : undefined,
             title: book.title,
             author: book.author,
             description: book.description,
@@ -21,7 +20,8 @@ const transformBookData = (data) => {
             rating: book.rating,
             category: book.category,
             downloadLink: book.downloadLink,
-            // Add any other fields you have in your Book model
+            createdAt: book.createdAt,
+            updatedAt: book.updatedAt
         }));
     } else if (data && typeof data === 'object' && data._id) {
         return {
@@ -34,15 +34,14 @@ const transformBookData = (data) => {
             rating: data.rating,
             category: data.category,
             downloadLink: data.downloadLink,
-            // Add any other fields you have in your Book model
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt
         };
     }
-    return data; // Return as is if not a recognized book object/array
+    return data;
 };
 
-
 // GET /api/books - Get all books with optional filtering and pagination
-// This endpoint is comprehensive and can serve as the primary one.
 router.get('/', async (req, res) => {
     try {
         const {
@@ -50,29 +49,32 @@ router.get('/', async (req, res) => {
             category,
             author,
             minRating,
-            limit = 50, // Default limit
-            page = 1,   // Default page
-            sortBy = 'createdAt', // Default sort
-            sortOrder = 'desc'    // Default sort order
+            limit = 50,
+            page = 1,
+            sortBy = 'createdAt',
+            sortOrder = 'desc'
         } = req.query;
+
+        const db = getDb();
+        const collection = db.collection('books');
 
         // Build query
         let query = {};
 
         if (search) {
             query.$or = [
-                { title: new RegExp(search, 'i') },
-                { author: new RegExp(search, 'i') },
-                { category: new RegExp(search, 'i') }
+                { title: { $regex: search, $options: 'i' } },
+                { author: { $regex: search, $options: 'i' } },
+                { category: { $regex: search, $options: 'i' } }
             ];
         }
 
         if (category) {
-            query.category = new RegExp(category, 'i');
+            query.category = { $regex: category, $options: 'i' };
         }
 
         if (author) {
-            query.author = new RegExp(author, 'i');
+            query.author = { $regex: author, $options: 'i' };
         }
 
         if (minRating) {
@@ -81,7 +83,7 @@ router.get('/', async (req, res) => {
 
         // Calculate pagination
         const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit))); // Cap limit to 100
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
         const skip = (pageNum - 1) * limitNum;
 
         // Sort options
@@ -90,25 +92,24 @@ router.get('/', async (req, res) => {
 
         // Execute query
         const [books, total] = await Promise.all([
-            Book.find(query)
+            collection.find(query)
                 .sort(sortOptions)
                 .skip(skip)
                 .limit(limitNum)
-                .lean(), // Use lean() for plain JavaScript objects
-            Book.countDocuments(query)
+                .toArray(),
+            collection.countDocuments(query)
         ]);
 
-        // Transform books data (_id to id)
         const transformedBooks = transformBookData(books);
 
         res.json({
             success: true,
-            data: transformedBooks, // Use transformed data
+            data: transformedBooks,
             pagination: {
-                currentPage: pageNum, // Changed from 'current' to 'currentPage' for frontend consistency
-                limit: limitNum,      // Keep 'limit' as is, or rename to 'booksPerPage' for consistency with /paginated
-                totalBooks: total,    // Changed from 'total' to 'totalBooks'
-                totalPages: Math.ceil(total / limitNum), // Changed from 'pages' to 'totalPages'
+                currentPage: pageNum,
+                limit: limitNum,
+                totalBooks: total,
+                totalPages: Math.ceil(total / limitNum),
             }
         });
 
@@ -126,17 +127,18 @@ router.get('/', async (req, res) => {
 router.get('/recommended', async (req, res) => {
     try {
         const { limit = 10 } = req.query;
+        const db = getDb();
+        const collection = db.collection('books');
 
-        const books = await Book.findHighRated(4)
+        const books = await collection.find({ rating: { $gte: 4 } })
             .limit(parseInt(limit))
-            .lean(); // Use lean() for plain JavaScript objects
+            .toArray();
 
-        // Transform books data (_id to id)
         const transformedBooks = transformBookData(books);
 
         res.json({
             success: true,
-            data: transformedBooks, // Use transformed data
+            data: transformedBooks,
             count: transformedBooks.length
         });
 
@@ -150,11 +152,12 @@ router.get('/recommended', async (req, res) => {
     }
 });
 
-// GET /api/books/paginated - Get paginated books (now includes category filtering)
-// This endpoint is what your frontend's `bookService.getBooksPaginated` calls.
+// GET /api/books/paginated - Get paginated books
 router.get('/paginated', async (req, res) => {
     try {
-        const { page = 1, limit = 10, category } = req.query; // Added category
+        const { page = 1, limit = 10, category } = req.query;
+        const db = getDb();
+        const collection = db.collection('books');
 
         const pageNum = Math.max(1, parseInt(page));
         const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
@@ -162,25 +165,24 @@ router.get('/paginated', async (req, res) => {
 
         // Build query for category
         let query = {};
-        if (category && category !== 'All') { // 'All' is a common frontend value for no filter
-            query.category = new RegExp(category, 'i');
+        if (category && category !== 'All') {
+            query.category = { $regex: category, $options: 'i' };
         }
 
         const [books, total] = await Promise.all([
-            Book.find(query) // Use the query for filtering
+            collection.find(query)
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limitNum)
-                .lean(), // Use lean() for plain JavaScript objects
-            Book.countDocuments(query) // Use the query for count
+                .toArray(),
+            collection.countDocuments(query)
         ]);
 
-        // Transform books data (_id to id)
         const transformedBooks = transformBookData(books);
 
         res.json({
             success: true,
-            data: transformedBooks, // Changed from 'books' to 'data' for consistency with MainContent's expectation
+            data: transformedBooks,
             pagination: {
                 currentPage: pageNum,
                 totalPages: Math.ceil(total / limitNum),
@@ -204,7 +206,10 @@ router.get('/paginated', async (req, res) => {
 // GET /api/books/categories - Get all unique categories
 router.get('/categories', async (req, res) => {
     try {
-        const categories = await Book.distinct('category');
+        const db = getDb();
+        const collection = db.collection('books');
+        
+        const categories = await collection.distinct('category');
 
         res.json({
             success: true,
@@ -225,7 +230,19 @@ router.get('/categories', async (req, res) => {
 // GET /api/books/:id - Get single book
 router.get('/:id', async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id).lean(); // Use lean() here too
+        const { id } = req.params;
+        
+        // Validate ObjectId
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid book ID format'
+            });
+        }
+
+        const db = getDb();
+        const collection = db.collection('books');
+        const book = await collection.findOne({ _id: new ObjectId(id) });
 
         if (!book) {
             return res.status(404).json({
@@ -234,24 +251,15 @@ router.get('/:id', async (req, res) => {
             });
         }
 
-        // Transform book data (_id to id)
         const transformedBook = transformBookData(book);
 
         res.json({
             success: true,
-            data: transformedBook // Use transformed data
+            data: transformedBook
         });
 
     } catch (error) {
         console.error('Error fetching book:', error);
-
-        if (error.name === 'CastError') {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid book ID format'
-            });
-        }
-
         res.status(500).json({
             success: false,
             error: 'Failed to fetch book',
@@ -263,29 +271,28 @@ router.get('/:id', async (req, res) => {
 // POST /api/books - Create new book
 router.post('/', async (req, res) => {
     try {
-        const book = new Book(req.body);
-        await book.save();
+        const db = getDb();
+        const collection = db.collection('books');
+        
+        const bookData = {
+            ...req.body,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        };
 
-        // Transform newly created book data (_id to id)
-        const transformedBook = transformBookData(book.toObject()); // Convert Mongoose doc to plain object first
+        const result = await collection.insertOne(bookData);
+        const newBook = await collection.findOne({ _id: result.insertedId });
+        
+        const transformedBook = transformBookData(newBook);
 
         res.status(201).json({
             success: true,
-            data: transformedBook, // Use transformed data
+            data: transformedBook,
             message: 'Book created successfully'
         });
 
     } catch (error) {
         console.error('Error creating book:', error);
-
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                error: 'Validation failed',
-                details: Object.values(error.errors).map(err => err.message)
-            });
-        }
-
         res.status(500).json({
             success: false,
             error: 'Failed to create book',
@@ -297,50 +304,47 @@ router.post('/', async (req, res) => {
 // PUT /api/books/:id - Update book
 router.put('/:id', async (req, res) => {
     try {
-        const book = await Book.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true, // Return the modified document rather than the original
-                runValidators: true,
-                context: 'query'
-            }
-        ).lean(); // Use lean() here too
-
-        if (!book) {
-            return res.status(404).json({
-                success: false,
-                error: 'Book not found'
-            });
-        }
-
-        // Transform updated book data (_id to id)
-        const transformedBook = transformBookData(book);
-
-        res.json({
-            success: true,
-            data: transformedBook, // Use transformed data
-            message: 'Book updated successfully'
-        });
-
-    } catch (error) {
-        console.error('Error updating book:', error);
-
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                error: 'Validation failed',
-                details: Object.values(error.errors).map(err => err.message)
-            });
-        }
-
-        if (error.name === 'CastError') {
+        const { id } = req.params;
+        
+        // Validate ObjectId
+        if (!ObjectId.isValid(id)) {
             return res.status(400).json({
                 success: false,
                 error: 'Invalid book ID format'
             });
         }
 
+        const db = getDb();
+        const collection = db.collection('books');
+
+        const updateData = {
+            ...req.body,
+            updatedAt: new Date()
+        };
+
+        const result = await collection.findOneAndUpdate(
+            { _id: new ObjectId(id) },
+            { $set: updateData },
+            { returnDocument: 'after' }
+        );
+
+        if (!result.value) {
+            return res.status(404).json({
+                success: false,
+                error: 'Book not found'
+            });
+        }
+
+        const transformedBook = transformBookData(result.value);
+
+        res.json({
+            success: true,
+            data: transformedBook,
+            message: 'Book updated successfully'
+        });
+
+    } catch (error) {
+        console.error('Error updating book:', error);
         res.status(500).json({
             success: false,
             error: 'Failed to update book',
@@ -352,9 +356,22 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/books/:id - Delete book
 router.delete('/:id', async (req, res) => {
     try {
-        const book = await Book.findByIdAndDelete(req.params.id).lean(); // Use lean()
+        const { id } = req.params;
+        
+        // Validate ObjectId
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid book ID format'
+            });
+        }
 
-        if (!book) {
+        const db = getDb();
+        const collection = db.collection('books');
+
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
             return res.status(404).json({
                 success: false,
                 error: 'Book not found'
@@ -368,14 +385,6 @@ router.delete('/:id', async (req, res) => {
 
     } catch (error) {
         console.error('Error deleting book:', error);
-
-        if (error.name === 'CastError') {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid book ID format'
-            });
-        }
-
         res.status(500).json({
             success: false,
             error: 'Failed to delete book',

@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Import database connection
-import { testConnection, closeConnection } from './db.js';
+import { connectDB, testConnection, closeConnection } from './db.js';
 
 // Import routes
 import booksRoutes from './routes/books.js';
@@ -173,9 +173,9 @@ const startServer = async () => {
     try {
         console.log('🔄 Starting Namdhari Library Server...');
         
-        // Test database connection
-        console.log('🔄 Testing database connection...');
-        const dbConnected = await testConnection();
+        // Connect to database
+        console.log('🔄 Connecting to database...');
+        const dbConnected = await connectDB();
 
         if (!dbConnected) {
             console.error('❌ Cannot start server: Database connection failed');

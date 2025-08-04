@@ -16,14 +16,14 @@ import MainContent from './components/MainContent'; // Assuming this is the prim
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 import BookForm from './components/BookForm';
+import Index from './components/Index';
 
 // --- Placeholder Components for routes mentioned in Header ---
 // Create these files in 'src/components/' or 'src/pages/' if they don't exist yet
 const HomePage: React.FC = () => {
   return (
     <><div className="flex flex-1"> {/* This div should contain your layout structure */}
-      <Layout children={undefined} /> {/* Example: Sidebar within the HomePage layout */}
-      <MainContent /> {/* Example: MainContent within the HomePage layout */}
+      <Index /> {/* Example: MainContent within the HomePage layout */}
 
     </div><Footer /></>
   );
@@ -78,7 +78,9 @@ function App() {
             {/* Routes for other links in your header */}
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/my-books" element={<MyBooksPage />} />
+            <Route path="/main-content" element={<MainContent />} />
 
+            <Route path="/index" element={<Index />} />
             {/* Catch-all route for unmatched paths */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

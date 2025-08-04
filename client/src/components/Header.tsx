@@ -16,7 +16,7 @@ const Header: React.FC = () => {
             <div className="bg-warning rounded-3 d-flex align-items-center justify-content-center me-2" style={{ width: '36px', height: '36px' }}>
               <Home className="text-white" size={24} />
             </div>
-            <span className="text-warning-emphasis fw-bold fs-4">BookBase</span>
+            <span className="text-warning-emphasis fw-bold fs-4">Digital Sikh Pustkalya</span>
           </Link>
 
           {/* Search Bar (visible only on desktop) */}

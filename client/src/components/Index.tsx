@@ -1,270 +1,213 @@
-import React from "react";
-// import '../style/index.css'
-const Index:React.FC = () =>{
+import React from 'react';
+import { Book, Search, Download, Eye, Smartphone, Monitor, Globe, Star, ChevronRight, FileText, Heart, ArrowRight } from 'lucide-react';
 
-    return(
-        <React.Fragment>
-            <body className="flex flex-col min-h-screen lg:flex-row">
+const Index: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-orange-50">
 
-    {/* <!-- Left Sidebar --> */}
-    <aside className="bg-white w-full lg:w-64 p-4 lg:p-6 shadow-lg lg:shadow-xl rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none flex flex-col items-center lg:items-start z-20">
-        {/* <!-- Logo --> */}
-        <div className="mb-8 mt-2 text-center lg:text-left">
-            <h1 className="text-3xl font-bold text-blue-800">Book<span className="text-blue-500">Base</span></h1>
-        </div>
-
-        {/* <!-- Navigation --> */}
-        <nav className="w-full">
-            <ul className="space-y-3">
-                <li><a href="#" className="sidebar-link active">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
-                    Discover
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
-                    Category
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
-                    My Library
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
-                    Download
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path></svg>
-                    Audio Books
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
-                    Favourite
-                </a></li>
-            </ul>
-        </nav>
-
-        <div className="w-full mt-auto pt-6 border-t border-gray-200">
-            <ul className="space-y-3">
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.09-.75-1.7-.92L14.8 2.8c-.09-.23-.3-.39-.55-.39h-4c-.25 0-.46.16-.55.39L9.3 5.3c-.61.17-1.18.52-1.7.92l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.09.75 1.7.92l.3 2.5c.09.23.3.39.55.39h4c.25 0 .46-.16.55-.39l.3-2.5c.61-.17 1.18-.52 1.7-.92l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"></path></svg>
-                    Settings
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.35 1.7-.93 2.35z"></path></svg>
-                    Support
-                </a></li>
-                <li><a href="#" className="sidebar-link">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"></path></svg>
-                    Logout
-                </a></li>
-            </ul>
-        </div>
-    </aside>
-
-    {/* <!-- Main Content Area --> */}
-    <div className="flex-grow flex flex-col lg:flex-row p-4 md:p-6 lg:p-8">
-        <div className="flex-grow lg:mr-8">
-            {/* <!-- Top Header for Main Content --> */}
-            <header className="bg-white rounded-xl shadow-md p-4 mb-6 flex items-center justify-between z-10 relative">
-                <div className="flex-grow relative">
-                    <input type="text" placeholder="Search your favourite books"
-                           className="w-full p-3 pl-10 rounded-lg bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800" />
-                    <svg className="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                </div>
-                <div className="flex items-center ml-4 space-x-4">
-                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
-                        <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 4.36 6 6.93 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
-                    </button>
-                    <div className="flex items-center space-x-2">
-                        <img src="https://placehold.co/40x40/cbd5e0/333?text=B" alt="User Avatar" className="w-10 h-10 rounded-full border-2 border-blue-400"/>
-                        <span className="font-semibold text-gray-800 hidden md:block">Balogun</span>
-                    </div>
-                </div>
-            </header>
-
-            {/* <!-- Recommended Section --> */}
-            <section className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">Recommended</h2>
-                    <a href="#" className="text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-200 flex items-center">
-                        See All
-                        <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                    </a>
-                </div>
-                <div className="flex overflow-x-auto pb-4 space-x-4 scroll-container">
-                    {/* <!-- Book Card 1 --> */}
-                    <div className="flex-shrink-0 w-48 bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/fcd34d/333?text=Book+1" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">The Psychology of Money</h3>
-                        <p className="text-gray-600 text-sm truncate">Morgan Housel</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.8</span>
-                        </div>
-                    </div>
-                    {/* <!-- Book Card 2 --> */}
-                    <div className="flex-shrink-0 w-48 bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/ffd700/333?text=Book+2" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">How Innovation Works</h3>
-                        <p className="text-gray-600 text-sm truncate">Matt Ridley</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.7</span>
-                        </div>
-                    </div>
-                    {/* <!-- Book Card 3 --> */}
-                    <div className="flex-shrink-0 w-48 bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/a0e0ff/333?text=Book+3" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">Company of One</h3>
-                        <p className="text-gray-600 text-sm truncate">Paul Jarvis</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.9</span>
-                        </div>
-                    </div>
-                    {/* <!-- Book Card 4 --> */}
-                    <div className="flex-shrink-0 w-48 bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/c0c0c0/333?text=Book+4" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">Stupore E Tremori</h3>
-                        <p className="text-gray-600 text-sm truncate">Amelie Nothomb</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.6</span>
-                        </div>
-                    </div>
-                    {/* <!-- Book Card 5 --> */}
-                    <div className="flex-shrink-0 w-48 bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/e0e0e0/333?text=Book+5" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">The Art of War</h3>
-                        <p className="text-gray-600 text-sm truncate">Sun Tzu</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.5</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* <!-- Categories Section --> */}
-            <section className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">Categories</h2>
-                    <button className="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
-                        <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-                    </button>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-6">
-                    <button className="category-btn active">All</button>
-                    <button className="category-btn">Sci-Fi</button>
-                    <button className="category-btn">Fantasy</button>
-                    <button className="category-btn">Drama</button>
-                    <button className="category-btn">Business</button>
-                    <button className="category-btn">Education</button>
-                    <button className="category-btn">Geography</button>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {/* <!-- Category Book Card 1 --> */}
-                    <div className="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/f97316/fff?text=The+Bees" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">The Bees</h3>
-                        <p className="text-gray-600 text-sm truncate">Laline Paull</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.8</span>
-                        </div>
-                    </div>
-                    {/* <!-- Category Book Card 2 --> */}
-                    <div className="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/a78bfa/333?text=Real+Help" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">Real Help</h3>
-                        <p className="text-gray-600 text-sm truncate">Ayodeji Awosika</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.7</span>
-                        </div>
-                    </div>
-                    {/* <!-- Category Book Card 3 --> */}
-                    <div className="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/f97316/fff?text=Fact+of+Body" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">The Fact of a Body</h3>
-                        <p className="text-gray-600 text-sm truncate">Alex Marzano-Lesnevich</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.8</span>
-                        </div>
-                    </div>
-                    {/* <!-- Category Book Card 4 --> */}
-                    <div className="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/60a5fa/333?text=The+Room" alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">The Room</h3>
-                        <p className="text-gray-600 text-sm truncate">Jonas Karlsson</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.6</span>
-                        </div>
-                    </div>
-                    {/* <!-- Category Book Card 5 --> */}
-                    <div className="bg-white rounded-xl shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/120x180/fca5a5/333?text=Through+the..." alt="Book Cover" className="rounded-lg mb-3 mx-auto shadow-sm"/>
-                        <h3 className="font-semibold text-gray-900 text-md truncate mb-1">Through the...</h3>
-                        <p className="text-gray-600 text-sm truncate">Cate Emond</p>
-                        <div className="flex items-center justify-center mt-2 text-yellow-500">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                            <span className="ml-1 text-gray-700 text-sm">4.5</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        {/* <!-- Right Book Detail View (Fixed on larger screens) --> */}
-        <div className="w-full lg:w-96 bg-blue-800 text-white p-6 rounded-xl shadow-xl flex-shrink-0 mt-8 lg:mt-0">
-            <div className="flex justify-end mb-4">
-                <button className="p-2 rounded-full hover:bg-blue-700 transition-colors duration-200">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 4.36 6 6.93 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
-                </button>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-16 sm:py-20 lg:py-32">
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-400/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="mb-6 sm:mb-8">
+              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 rounded-full text-sm font-medium mb-4 sm:mb-6 shadow-md">
+                <Star className="w-4 h-4 mr-2 text-yellow-600" />
+                ਪੰਜਾਬੀ ਸਾਹਿਤ ਦਾ ਖਜ਼ਾਨਾ
+              </div>
             </div>
-            <div className="flex justify-center mb-6">
-                <img src="https://placehold.co/200x300/a0e0ff/333?text=Company+of+One" alt="Company of One Book Cover" className="rounded-lg shadow-lg border-2 border-blue-500"/>
-            </div>
-            <h3 className="text-2xl font-bold mb-2">Company of One</h3>
-            <p className="text-blue-200 text-lg mb-4">Paul Jarvis</p>
-            <div className="flex items-center mb-6">
-                <svg className="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
-                <span className="text-yellow-400 font-semibold text-xl">4.8</span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 text-center mb-6">
-                <div>
-                    <p className="text-blue-300 text-sm">Pages</p>
-                    <p className="font-bold text-lg">320</p>
-                </div>
-                <div>
-                    <p className="text-blue-300 text-sm">Ratings</p>
-                    <p className="font-bold text-lg">643</p>
-                </div>
-                <div>
-                    <p className="text-blue-300 text-sm">Reviews</p>
-                    <p className="font-bold text-lg">110</p>
-                </div>
-            </div>
-
-            <p className="text-blue-100 text-sm leading-relaxed mb-6">
-                Company of One offers a refreshingly original business strategy that's focused on building a sustainable, fulfilling, and impactful business. Why? Because staying small provides one with the freedom to pursue more meaningful pleasures in life—and avoid the headaches that...
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 sm:mb-4 text-yellow-700">ਪੰਜਾਬੀ ਕਿਤਾਬਾਂ ਦੀ</span>
+              <span className="bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-600 bg-clip-text text-transparent">
+                Digital Sikh Pustkalya
+              </span>
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
+              Discover thousands of Punjabi books, sacred texts, and literature. 
+              <span className="block mt-2 font-semibold text-yellow-700">View online or download for offline reading</span>
+              on any device.
             </p>
-
-            <button className="w-full bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300 shadow-md flex items-center justify-center">
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                Read Now
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
+             
+              <button className="w-full sm:w-auto bg-gradient-to-r from-orange-400 to-yellow-400 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg font-bold hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center">
+                <Eye className="w-5 h-5 mr-2" />
+                <a href="https://digitalsikhlibrary.vercel.app/main-content">Explore Library</a>
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </button>
+            </div>
+          </div>
         </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-10 sm:top-20 left-4 sm:left-10 w-16 sm:w-20 h-16 sm:h-20 bg-yellow-200 rounded-full opacity-60 animate-pulse"></div>
+        <div className="absolute bottom-10 sm:bottom-20 right-4 sm:right-10 w-24 sm:w-32 h-24 sm:h-32 bg-orange-200 rounded-full opacity-40 animate-pulse"></div>
+        <div className="absolute top-1/2 right-1/4 w-12 sm:w-16 h-12 sm:h-16 bg-yellow-300 rounded-full opacity-50 animate-pulse"></div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              <span className="block text-yellow-600 mb-2">ਪੰਜਾਬੀ Books</span>
+              At Your Fingertips
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto px-4 sm:px-0">
+              Access, read, and download Punjabi literature anytime, anywhere. 
+              Optimized for all devices with seamless reading experience.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {[
+              {
+                icon: Eye,
+                title: "Online Reading",
+                description: "Read books directly in your browser with our beautiful, responsive reader interface.",
+                highlight: "View Online"
+              },
+              {
+                icon: Download,
+                title: "Download Books",
+                description: "Download any book for offline reading. Keep your favorite Punjabi literature with you always.",
+                highlight: "Download PDF"
+              },
+              
+             
+              {
+                icon: Search,
+                title: "Smart Search",
+                description: "Find books by title, author, or content. Search in Punjabi, Hindi, or English languages.",
+                highlight: "Multi-language"
+              },
+              {
+                icon: Book,
+                title: "Vast Collection",
+                description: "Thousands of Punjabi books including religious texts, poetry, novels, and historical literature.",
+                highlight: "1000+ Books"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="group p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-yellow-100">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <feature.icon className="w-6 sm:w-8 h-6 sm:h-8 text-white" />
+                  </div>
+                  <span className="text-xs sm:text-sm bg-gradient-to-r from-yellow-200 to-orange-200 text-yellow-800 px-2 sm:px-3 py-1 rounded-full font-medium shadow-sm">
+                    {feature.highlight}
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-yellow-500 to-orange-500 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-6 sm:mb-8 leading-tight">
+                <span className="block mb-2">ਕਿਉਂ ਬਣਾਇਆ ਗਿਆ</span>
+                Digital Sikh Library?
+              </h2>
+              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg leading-relaxed opacity-95">
+                <p>
+                  ਪੰਜਾਬੀ ਸਾਹਿਤ ਅਤੇ ਧਰਮਿਕ ਗ੍ਰੰਥਾਂ ਨੂੰ ਡਿਜੀਟਲ ਰੂਪ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਰੱਖਣ ਅਤੇ 
+                  ਦੁਨੀਆ ਭਰ ਦੇ ਲੋਕਾਂ ਤੱਕ ਪਹੁੰਚਾਉਣ ਲਈ।
+                </p>
+                <p>
+                  To make Punjabi literature accessible to everyone, everywhere. Whether you're 
+                  at home, traveling, or living abroad - your spiritual and cultural texts 
+                  should always be within reach.
+                </p>
+                <p>
+                  We believe that preserving and sharing knowledge is a sacred duty. This platform 
+                  bridges the gap between traditional books and modern technology, ensuring our 
+                  rich literary heritage survives for future generations.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center mt-8 lg:mt-0">
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/20 w-full max-w-md shadow-2xl">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6 text-center">
+                  <div className="bg-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur border border-white/10">
+                    <FileText className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-3 sm:mb-4 text-white" />
+                    <div className="text-xl sm:text-2xl font-bold">500+</div>
+                    <div className="text-xs sm:text-sm opacity-80">ਪੰਜਾਬੀ Books</div>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur border border-white/10">
+                    <Eye className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-3 sm:mb-4 text-white" />
+                    <div className="text-xl sm:text-2xl font-bold">View</div>
+                    <div className="text-xs sm:text-sm opacity-80">Online</div>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur border border-white/10">
+                    <Download className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-3 sm:mb-4 text-white" />
+                    <div className="text-xl sm:text-2xl font-bold">Free</div>
+                    <div className="text-xs sm:text-sm opacity-80">Download</div>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur border border-white/10">
+                    <Globe className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-3 sm:mb-4 text-white" />
+                    <div className="text-xl sm:text-2xl font-bold">24/7</div>
+                    <div className="text-xs sm:text-sm opacity-80">Access</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Responsive Showcase */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Perfect on Every Device
+            </h2>
+            
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="text-center group">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-yellow-100">
+                <Download className="w-12 sm:w-16 h-12 sm:h-16 text-yellow-700 mx-auto mb-4 sm:mb-6" />
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Offline Access</h3>
+                <p className="text-gray-600 text-sm sm:text-base">Download books to read offline on any device, anytime, anywhere without internet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Disclaimer Section */}
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 sm:p-8 shadow-lg border-2 border-yellow-200">
+            <div className="w-12 sm:w-16 h-12 sm:h-16 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-md">
+              <Heart className="w-6 sm:w-8 h-6 sm:h-8 text-yellow-700" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Important Notice</h3>
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-4 sm:mb-6">
+              All Punjabi books and texts available in this digital library are the intellectual 
+              property of their respective authors and publishers. This platform serves solely 
+              as a repository for educational and spiritual purposes.
+            </p>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+              <strong className="text-yellow-800">ਕਿਤਾਬਾਂ ਗਿਆਨ ਦਾ ਇੱਕੋ ਸਰੋਤ ਹਨ</strong> - Books are the only source of knowledge 
+              and belong to their original authors. This website does not claim ownership of any 
+              content and exists purely to facilitate access to Punjabi literature for learning 
+              and cultural preservation.
+            </p>
+          </div>
+        </div>
+      </section>
+
     </div>
-
-   
-</body>
-
-        </React.Fragment>
-    )
-}
+  );
+};
 
 export default Index;

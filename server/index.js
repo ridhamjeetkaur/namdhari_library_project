@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Import database connection
-import { connectDB, testConnection, closeConnection } from './db.js';
+import { testConnection, closeConnection } from './db.js';
 
 // Import routes
 import booksRoutes from './routes/books.js';
@@ -19,44 +19,25 @@ import booksRoutes from './routes/books.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware - Order is important!
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+const _dirname = path.dirname("")
+const buildpath = path.join(_dirname, "../namdhari_library/dist")
+app.use(express.static(buildpath));
 
-// CORS Configuration - Updated for production
+// Middleware
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:3000', 
-        'http://localhost:5000',
-        process.env.FRONTEND_URL,
-        // Add your Vercel domain here when you deploy
-        // 'https://your-app-name.vercel.app'
-    ].filter(Boolean), // Remove undefined values
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173'|| 'http://localhost:5000',
+    credentials: true
 }));
 
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 // Serve static files (for book covers/images)
+// THIS IS THE LINE TO ADD
 console.log('Serving static files from:', path.join(__dirname, 'public/covers'));
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/covers', express.static(path.join(__dirname, 'public/covers')));
-
-// Create uploads and covers directories if they don't exist
-import fs from 'fs';
-const uploadsDir = path.join(__dirname, 'uploads');
-const coversDir = path.join(__dirname, 'public/covers');
-
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-    console.log('📁 Created uploads directory');
-}
-
-if (!fs.existsSync(coversDir)) {
-    fs.mkdirSync(coversDir, { recursive: true });
-    console.log('📁 Created covers directory');
-}
 
 // API Routes
 app.use('/api/books', booksRoutes);
@@ -69,12 +50,9 @@ app.get('/api/health', async (req, res) => {
             status: 'OK',
             message: 'Namdhari Library Server is running',
             database: dbConnected ? 'Connected' : 'Disconnected',
-            environment: process.env.NODE_ENV || 'development',
-            port: PORT,
             timestamp: new Date().toISOString()
         });
     } catch (error) {
-        console.error('Health check error:', error);
         res.status(500).json({
             status: 'Error',
             message: 'Health check failed',
@@ -90,7 +68,6 @@ app.get('/', (req, res) => {
         message: 'Welcome to Namdhari Library API',
         version: '1.0.0',
         database: 'MongoDB',
-        environment: process.env.NODE_ENV || 'development',
         endpoints: {
             books: '/api/books',
             recommended: '/api/books/recommended',
@@ -100,21 +77,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// Catch-all for API routes that don't exist
-app.use('/api/*', (req, res) => {
-    res.status(404).json({
-        error: 'API Route not found',
-        message: `The API endpoint ${req.originalUrl} was not found.`,
-        availableEndpoints: [
-            '/api/books',
-            '/api/books/recommended', 
-            '/api/books/paginated',
-            '/api/health'
-        ]
-    });
-});
-
-// 404 handler for non-API routes
+// 404 handler
 app.use((req, res, next) => {
     res.status(404).json({
         error: 'Route not found',
@@ -126,92 +89,50 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
     console.error('Global error handler:', error);
 
-    // Don't send stack trace in production
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    
     res.status(error.status || 500).json({
         error: 'Internal Server Error',
-        message: isDevelopment ? error.message : 'Something went wrong',
-        ...(isDevelopment && { 
-            stack: error.stack,
-            details: error
-        })
+        message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong',
+        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
     });
 });
 
-// Graceful shutdown handlers
-const gracefulShutdown = async (signal) => {
-    console.log(`\n🔄 Received ${signal}. Shutting down server gracefully...`);
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    console.log('\n🔄 Shutting down server gracefully...');
 
     try {
         await closeConnection();
-        console.log('✅ Database connection closed');
         console.log('✅ Server shut down successfully');
         process.exit(0);
     } catch (error) {
         console.error('❌ Error during shutdown:', error);
         process.exit(1);
     }
-};
-
-process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-    console.error('❌ Uncaught Exception:', error);
-    gracefulShutdown('uncaughtException');
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-    gracefulShutdown('unhandledRejection');
 });
 
 // Start server
 const startServer = async () => {
     try {
-        console.log('🔄 Starting Namdhari Library Server...');
-        
-        // Connect to database
-        console.log('🔄 Connecting to database...');
-        const dbConnected = await connectDB();
+        // Test database connection
+        const dbConnected = await testConnection();
 
         if (!dbConnected) {
             console.error('❌ Cannot start server: Database connection failed');
-            console.error('   Please check your MONGODB_URI environment variable');
             process.exit(1);
         }
-        
-        console.log('✅ Database connection successful');
 
-        // Start listening - Render requires binding to 0.0.0.0
-        const server = app.listen(PORT, '0.0.0.0', () => {
+        // Start listening
+        app.listen(PORT, () => {
             console.log('🚀 Server started successfully!');
-            console.log(`📍 Server running on: http://0.0.0.0:${PORT}`);
+            console.log(`📍 Server running on: http://localhost:${PORT}`);
             console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-            console.log(`🗄️  Database: MongoDB ${dbConnected ? '✅' : '❌'}`);
+            console.log(`🗄️  Database: MongoDB`);
             console.log(`📚 API Endpoints:`);
-            console.log(`   - Health: /api/health`);
-            console.log(`   - Books: /api/books`);
-            console.log(`   - Recommended: /api/books/recommended`);
-            console.log(`   - Paginated: /api/books/paginated`);
-            console.log(`📁 Static files served from:`);
-            console.log(`   - Uploads: /uploads`);
-            console.log(`   - Covers: /covers`);
+            console.log(`   - Health: http://localhost:${PORT}/api/health`);
+            console.log(`   - Books: http://localhost:${PORT}/api/books`);
+            console.log(`   - Recommended: http://localhost:${PORT}/api/books/recommended`);
+            console.log(`   - Paginated: http://localhost:${PORT}/api/books/paginated`);
         });
-
-        // Handle server errors
-        server.on('error', (error) => {
-            if (error.code === 'EADDRINUSE') {
-                console.error(`❌ Port ${PORT} is already in use`);
-            } else {
-                console.error('❌ Server error:', error);
-            }
-            process.exit(1);
-        });
-
-        return server;
 
     } catch (error) {
         console.error('❌ Failed to start server:', error);

@@ -11,9 +11,9 @@ type Book = {
   link?: string;
   downloadLink?: string;
 };
-const SERVER_URL = 'https://namdhari-library-project.onrender.com/';
+
 const BookCard = ({ book }: { book: Book }) => {
-  const fullCoverUrl = `${SERVER_URL}${book.cover}`;
+  const fullCoverUrl = `${process.env.SERVER_URL}${book.cover}`;
   const handleQuickAction = (e: React.MouseEvent, action: 'read' | 'download') => {
     e.stopPropagation(); // Prevent modal from opening
     

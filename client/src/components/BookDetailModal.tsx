@@ -45,6 +45,8 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
     readingTime: Math.ceil(((book as any).pages || 300) / 250) // ~250 words per page, 250 words per minute
   };
 
+   const fullCoverUrl = `${process.env.SERVER_URL}${book.cover}`;
+
   return (
     <>
       {/* Backdrop */}
@@ -76,7 +78,7 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
               <div className="flex gap-4 mb-6">
                 <div className="w-24 h-32 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                   <img
-                    src={book.cover}
+                    src={fullCoverUrl}
                     alt={book.title}
                     className="w-full h-full object-cover"
                     onError={(e) => {

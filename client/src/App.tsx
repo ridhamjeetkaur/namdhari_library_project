@@ -13,7 +13,6 @@ import PrivacyPage from './components/PrivacyPage';
 
 // Import your layout and content components for the home/dashboard area
 import MainContent from './components/MainContent'; // Assuming this is the primary content for a section
-import Layout from './components/Layout';
 import Footer from './components/Footer';
 import BookForm from './components/BookForm';
 import Index from './components/Index';
@@ -22,10 +21,10 @@ import Index from './components/Index';
 // Create these files in 'src/components/' or 'src/pages/' if they don't exist yet
 const HomePage: React.FC = () => {
   return (
-    <><div className="flex flex-1"> {/* This div should contain your layout structure */}
+    <>
       <Index /> {/* Example: MainContent within the HomePage layout */}
 
-    </div><Footer /></>
+  <Footer /></>
   );
 };
 

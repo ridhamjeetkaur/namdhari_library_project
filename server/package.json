@@ -7,9 +7,10 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "db:setup": "node scripts/setup-database.js",
-     "add-books": "node scripts/add-books.js"
+     "add-books": "node scripts/add-books.js",
+     "build": "echo 'No build step required for server' && exit 0",
+    "test": "echo 'No tests specified' && exit 0"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
@@ -24,6 +25,15 @@
     "nodemon": "^3.1.10"
   },
   "engines": {
-    "node": ">=18.0.0"
-  }
+    "node": ">=18.0.0",
+     "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "library",
+    "api",
+    "mongodb",
+    "express"
+  ]
+  
 }
+

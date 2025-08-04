@@ -16,7 +16,7 @@ const options = {
 };
 
 // Connect to MongoDB
-export const connectDB = async () => {
+export const getDb = async () => {
     if (isConnected) {
         console.log('📊 Already connected to MongoDB');
         return true;

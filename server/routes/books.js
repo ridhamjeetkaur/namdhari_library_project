@@ -1,12 +1,11 @@
-// routes/books.js - Raw MongoDB version
+// routes/books.js - Book routes with Mongoose
 import express from 'express';
-import { getDb } from '../db.js';
-import { ObjectId } from 'mongodb';
+import Book from '../models/Book.js';
 
 const router = express.Router();
 
 /**
- * Helper function to transform MongoDB _id to 'id' for frontend
+ * Helper function to transform Mongoose document _id to 'id' for frontend
  */
 const transformBookData = (data) => {
     if (Array.isArray(data)) {
@@ -21,7 +20,15 @@ const transformBookData = (data) => {
             category: book.category,
             downloadLink: book.downloadLink,
             createdAt: book.createdAt,
-            updatedAt: book.updatedAt
+            updatedAt: book.updatedAt,
+            isbn: book.isbn,
+            publishedYear: book.publishedYear,
+            pages: book.pages,
+            language: book.language,
+            tags: book.tags,
+            isAvailable: book.isAvailable,
+            views: book.views,
+            downloads: book.downloads
         }));
     } else if (data && typeof data === 'object' && data._id) {
         return {
@@ -35,7 +42,15 @@ const transformBookData = (data) => {
             category: data.category,
             downloadLink: data.downloadLink,
             createdAt: data.createdAt,
-            updatedAt: data.updatedAt
+            updatedAt: data.updatedAt,
+            isbn: data.isbn,
+            publishedYear: data.publishedYear,
+            pages: data.pages,
+            language: data.language,
+            tags: data.tags,
+            isAvailable: data.isAvailable,
+            views: data.views,
+            downloads: data.downloads
         };
     }
     return data;
@@ -55,26 +70,24 @@ router.get('/', async (req, res) => {
             sortOrder = 'desc'
         } = req.query;
 
-        const db = getDb();
-        const collection = db.collection('books');
-
         // Build query
         let query = {};
 
         if (search) {
             query.$or = [
-                { title: { $regex: search, $options: 'i' } },
-                { author: { $regex: search, $options: 'i' } },
-                { category: { $regex: search, $options: 'i' } }
+                { title: new RegExp(search, 'i') },
+                { author: new RegExp(search, 'i') },
+                { category: new RegExp(search, 'i') },
+                { description: new RegExp(search, 'i') }
             ];
         }
 
         if (category) {
-            query.category = { $regex: category, $options: 'i' };
+            query.category = new RegExp(category, 'i');
         }
 
         if (author) {
-            query.author = { $regex: author, $options: 'i' };
+            query.author = new RegExp(author, 'i');
         }
 
         if (minRating) {
@@ -92,12 +105,12 @@ router.get('/', async (req, res) => {
 
         // Execute query
         const [books, total] = await Promise.all([
-            collection.find(query)
+            Book.find(query)
                 .sort(sortOptions)
                 .skip(skip)
                 .limit(limitNum)
-                .toArray(),
-            collection.countDocuments(query)
+                .lean(),
+            Book.countDocuments(query)
         ]);
 
         const transformedBooks = transformBookData(books);
@@ -127,12 +140,10 @@ router.get('/', async (req, res) => {
 router.get('/recommended', async (req, res) => {
     try {
         const { limit = 10 } = req.query;
-        const db = getDb();
-        const collection = db.collection('books');
 
-        const books = await collection.find({ rating: { $gte: 4 } })
+        const books = await Book.findHighRated(4)
             .limit(parseInt(limit))
-            .toArray();
+            .lean();
 
         const transformedBooks = transformBookData(books);
 
@@ -156,8 +167,6 @@ router.get('/recommended', async (req, res) => {
 router.get('/paginated', async (req, res) => {
     try {
         const { page = 1, limit = 10, category } = req.query;
-        const db = getDb();
-        const collection = db.collection('books');
 
         const pageNum = Math.max(1, parseInt(page));
         const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
@@ -166,16 +175,16 @@ router.get('/paginated', async (req, res) => {
         // Build query for category
         let query = {};
         if (category && category !== 'All') {
-            query.category = { $regex: category, $options: 'i' };
+            query.category = new RegExp(category, 'i');
         }
 
         const [books, total] = await Promise.all([
-            collection.find(query)
+            Book.find(query)
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limitNum)
-                .toArray(),
-            collection.countDocuments(query)
+                .lean(),
+            Book.countDocuments(query)
         ]);
 
         const transformedBooks = transformBookData(books);
@@ -206,10 +215,7 @@ router.get('/paginated', async (req, res) => {
 // GET /api/books/categories - Get all unique categories
 router.get('/categories', async (req, res) => {
     try {
-        const db = getDb();
-        const collection = db.collection('books');
-        
-        const categories = await collection.distinct('category');
+        const categories = await Book.distinct('category');
 
         res.json({
             success: true,
@@ -227,22 +233,74 @@ router.get('/categories', async (req, res) => {
     }
 });
 
-// GET /api/books/:id - Get single book
-router.get('/:id', async (req, res) => {
+// GET /api/books/search - Search books
+router.get('/search', async (req, res) => {
     try {
-        const { id } = req.params;
-        
-        // Validate ObjectId
-        if (!ObjectId.isValid(id)) {
+        const { q: searchTerm, limit = 20 } = req.query;
+
+        if (!searchTerm) {
             return res.status(400).json({
                 success: false,
-                error: 'Invalid book ID format'
+                error: 'Search term is required'
             });
         }
 
-        const db = getDb();
-        const collection = db.collection('books');
-        const book = await collection.findOne({ _id: new ObjectId(id) });
+        const books = await Book.searchBooks(searchTerm)
+            .limit(parseInt(limit))
+            .lean();
+
+        const transformedBooks = transformBookData(books);
+
+        res.json({
+            success: true,
+            data: transformedBooks,
+            count: transformedBooks.length,
+            searchTerm
+        });
+
+    } catch (error) {
+        console.error('Error searching books:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to search books',
+            message: error.message
+        });
+    }
+});
+
+// GET /api/books/category/:category - Get books by category
+router.get('/category/:category', async (req, res) => {
+    try {
+        const { category } = req.params;
+        const { limit = 20 } = req.query;
+
+        const books = await Book.findByCategory(category)
+            .limit(parseInt(limit))
+            .lean();
+
+        const transformedBooks = transformBookData(books);
+
+        res.json({
+            success: true,
+            data: transformedBooks,
+            count: transformedBooks.length,
+            category
+        });
+
+    } catch (error) {
+        console.error('Error fetching books by category:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch books by category',
+            message: error.message
+        });
+    }
+});
+
+// GET /api/books/:id - Get single book
+router.get('/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id).lean();
 
         if (!book) {
             return res.status(404).json({
@@ -260,6 +318,14 @@ router.get('/:id', async (req, res) => {
 
     } catch (error) {
         console.error('Error fetching book:', error);
+
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid book ID format'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to fetch book',
@@ -271,19 +337,10 @@ router.get('/:id', async (req, res) => {
 // POST /api/books - Create new book
 router.post('/', async (req, res) => {
     try {
-        const db = getDb();
-        const collection = db.collection('books');
-        
-        const bookData = {
-            ...req.body,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
+        const book = new Book(req.body);
+        await book.save();
 
-        const result = await collection.insertOne(bookData);
-        const newBook = await collection.findOne({ _id: result.insertedId });
-        
-        const transformedBook = transformBookData(newBook);
+        const transformedBook = transformBookData(book.toObject());
 
         res.status(201).json({
             success: true,
@@ -293,6 +350,15 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         console.error('Error creating book:', error);
+
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Validation failed',
+                details: Object.values(error.errors).map(err => err.message)
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to create book',
@@ -304,38 +370,24 @@ router.post('/', async (req, res) => {
 // PUT /api/books/:id - Update book
 router.put('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        
-        // Validate ObjectId
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid book ID format'
-            });
-        }
+        const book = await Book.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new: true,
+                runValidators: true,
+                context: 'query'
+            }
+        ).lean();
 
-        const db = getDb();
-        const collection = db.collection('books');
-
-        const updateData = {
-            ...req.body,
-            updatedAt: new Date()
-        };
-
-        const result = await collection.findOneAndUpdate(
-            { _id: new ObjectId(id) },
-            { $set: updateData },
-            { returnDocument: 'after' }
-        );
-
-        if (!result.value) {
+        if (!book) {
             return res.status(404).json({
                 success: false,
                 error: 'Book not found'
             });
         }
 
-        const transformedBook = transformBookData(result.value);
+        const transformedBook = transformBookData(book);
 
         res.json({
             success: true,
@@ -345,6 +397,22 @@ router.put('/:id', async (req, res) => {
 
     } catch (error) {
         console.error('Error updating book:', error);
+
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Validation failed',
+                details: Object.values(error.errors).map(err => err.message)
+            });
+        }
+
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid book ID format'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to update book',
@@ -356,22 +424,9 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/books/:id - Delete book
 router.delete('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        
-        // Validate ObjectId
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid book ID format'
-            });
-        }
+        const book = await Book.findByIdAndDelete(req.params.id).lean();
 
-        const db = getDb();
-        const collection = db.collection('books');
-
-        const result = await collection.deleteOne({ _id: new ObjectId(id) });
-
-        if (result.deletedCount === 0) {
+        if (!book) {
             return res.status(404).json({
                 success: false,
                 error: 'Book not found'
@@ -385,9 +440,77 @@ router.delete('/:id', async (req, res) => {
 
     } catch (error) {
         console.error('Error deleting book:', error);
+
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid book ID format'
+            });
+        }
+
         res.status(500).json({
             success: false,
             error: 'Failed to delete book',
+            message: error.message
+        });
+    }
+});
+
+// PUT /api/books/:id/view - Increment book views
+router.put('/:id/view', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+
+        if (!book) {
+            return res.status(404).json({
+                success: false,
+                error: 'Book not found'
+            });
+        }
+
+        await book.incrementViews();
+
+        res.json({
+            success: true,
+            message: 'Book view count updated',
+            views: book.views
+        });
+
+    } catch (error) {
+        console.error('Error updating book views:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update book views',
+            message: error.message
+        });
+    }
+});
+
+// PUT /api/books/:id/download - Increment book downloads
+router.put('/:id/download', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+
+        if (!book) {
+            return res.status(404).json({
+                success: false,
+                error: 'Book not found'
+            });
+        }
+
+        await book.incrementDownloads();
+
+        res.json({
+            success: true,
+            message: 'Book download count updated',
+            downloads: book.downloads
+        });
+
+    } catch (error) {
+        console.error('Error updating book downloads:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update book downloads',
             message: error.message
         });
     }

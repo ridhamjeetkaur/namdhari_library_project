@@ -32,10 +32,7 @@ const BookCard = ({ book }: { book: Book }) => {
           src={fullCoverUrl}
           alt={book.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          onError={(e) => {
-            // Fallback for missing images
-            (e.target as HTMLImageElement).src = '/src/assets/images/book-placeholder.png';
-          }}
+          
         />
         
         {/* Rating Badge */}

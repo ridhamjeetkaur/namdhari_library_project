@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Home, Bell, Menu, X } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
+import logo from "../assets/images/logo.png"
 import { Link, NavLink } from 'react-router-dom'; // Import Link and NavLink
 
 const Header: React.FC = () => {
@@ -14,13 +15,13 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link className="navbar-brand d-flex align-items-center" to="/"> {/* Use Link here */}
             <div className="bg-warning rounded-3 d-flex align-items-center justify-content-center me-2" style={{ width: '36px', height: '36px' }}>
-              <Home className="text-white" size={24} />
+            <img src={logo}/>
             </div>
             <span className="text-warning-emphasis fw-bold fs-4">Digital Sikh Pustkalya</span>
           </Link>
 
           {/* Search Bar (visible only on desktop) */}
-          <div className="d-none d-md-block flex-grow-1 mx-4" style={{ maxWidth: '400px' }}>
+          {/* <div className="d-none d-md-block flex-grow-1 mx-4" style={{ maxWidth: '400px' }}>
             <div className="position-relative">
               <Search className="position-absolute start-0 top-50 translate-middle-y text-secondary ms-3" size={20} />
               <input
@@ -29,10 +30,22 @@ const Header: React.FC = () => {
                 className="form-control rounded-pill ps-5 py-2 border border-light focus-ring focus-ring-warning"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Desktop Navigation Links */}
+          
+
           <div className="d-none d-md-flex align-items-center gap-3"> {/* Added gap for spacing */}
+            <NavLink
+              to="/main-content"
+              className={({ isActive }) =>
+                `btn btn-link text-decoration-none px-3 py-2 rounded-pill fw-medium ${
+                  isActive ? 'text-warning-emphasis bg-warning-subtle' : 'text-secondary hover:text-warning-emphasis'
+                }`
+              }
+            >
+              Library
+            </NavLink>
             <NavLink
               to="/about"
               className={({ isActive }) =>
@@ -64,12 +77,7 @@ const Header: React.FC = () => {
               Privacy Policy
             </NavLink>
 
-            <button className="btn btn-link position-relative text-secondary p-2 me-2 rounded-circle bg-light-subtle-hover">
-              <Bell size={24} />
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white p-1" style={{ fontSize: '0.65rem' }}>
-                1
-              </span>
-            </button>
+            
             <div className="d-flex align-items-center cursor-pointer p-2 rounded-pill bg-light-subtle-hover">
               
             </div>
@@ -115,8 +123,7 @@ const Header: React.FC = () => {
 
             {/* Use NavLink for mobile menu items as well for active state */}
             <NavLink to="/" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>Home</NavLink>
-            <NavLink to="/categories" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>Categories</NavLink>
-            <NavLink to="/my-books" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>My Books</NavLink>
+            <NavLink to="/main-content" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>Library</NavLink>
             <NavLink to="/about" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>About Us</NavLink>
             <NavLink to="/contact" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>Contact</NavLink>
             <NavLink to="/privacy" className="nav-link text-dark fs-5 p-3 rounded-3 bg-light-subtle-hover" onClick={closeMobileMenu}>Privacy Policy</NavLink>

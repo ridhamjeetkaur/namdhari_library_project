@@ -30,7 +30,7 @@ const Index: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
              
-              <Link to="/main-content"><button className="w-full sm:w-auto bg-gradient-to-r from-orange-400 to-yellow-400 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg font-bold hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center">
+              <Link to="/main-content"><button className="w-full sm:w-auto bg-gradient-to-r from-orange-400 to-yellow-400 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg font-bold hover:from-orange-500 hover:to-yellow-500 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center ">
                 <Eye className="w-5 h-5 mr-2" />
                 Explore Library
                 <ChevronRight className="w-5 h-5 ml-2" />

@@ -1,6 +1,6 @@
 import { colors } from './Color';
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
-import logo from "../assets/images/sau_sakhi.png";
+import logo from "../assets/images/logo.png";
 import { Link } from 'react-router-dom'; // ✅ Correct import
 
 const Footer = () => {
@@ -14,18 +14,17 @@ const Footer = () => {
   const quickLinks = [
     { to: '/', label: 'Home' },
     { to: '/categories', label: 'Categories' },
-    { to: '/my-books', label: 'My Books' },
     { to: '/about', label: 'About Us' },
     { to: '/contact', label: 'Contact' },
     { to: '/privacy', label: 'Privacy Policy' }
   ];
 
   return (
-    <footer className="py-5" style={{ backgroundColor: colors.dark }}>
+    <footer className="py-5" style={{ backgroundColor: colors.brownCustom }}>
       <div className="container">
         <div className="row g-4">
           {/* Brand */}
-          <div className="col-lg-4 mb-4">
+          <div className="col-lg-6 mb-4">
             <div className="d-flex align-items-center mb-4">
               <div
                 className="me-3"
@@ -44,10 +43,10 @@ const Footer = () => {
                   }}
                 />
               </div>
-              <span className="fw-bold fs-4 text-white">Library</span>
+              <span className="fw-bold fs-4 text-white">Digital Sikh Pustkalya</span>
             </div>
-            <p style={{ color: colors.mutedGray }}>
-              Empowering Readers.
+            <p style={{ color: colors.light }}>
+              Discover the richness of Punjabi literature. Our shelves are filled with stories that resonate with our culture and heritage. We offer a vast collection of books, from classic tales to modern masterpieces. Join us for literary events and celebrate the power of the written word. Come, read, and connect with your roots at our library.
             </p>
             <div className="d-flex gap-3 mt-3">
               {socialLinks.map((social, index) => (
@@ -77,9 +76,9 @@ const Footer = () => {
               ))}
             </div>
           </div>
-
+<div className='col-lg-1'></div>
           {/* Quick Links */}
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-4 col-md-6">
             <h5 className="text-white fw-bold mb-3">Quick Links</h5>
             <ul className="list-unstyled">
               {quickLinks.map((link, index) => (
@@ -88,7 +87,7 @@ const Footer = () => {
                     to={link.to}
                     className="text-decoration-none"
                     style={{
-                      color: colors.mutedGray,
+                      color: colors.light,
                       fontSize: '16px',
                       transition: 'color 0.3s ease'
                     }}
@@ -96,7 +95,7 @@ const Footer = () => {
                       e.currentTarget.style.color = colors.primary;
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = colors.mutedGray;
+                      e.currentTarget.style.color = colors.light;
                     }}
                   >
                     {link.label}
@@ -111,7 +110,7 @@ const Footer = () => {
         <div className="row mt-5 pt-4" style={{ borderTop: `1px solid ${colors.gray}30` }}>
           <div className="col-md-6 text-center text-md-start">
             <p className="mb-0" style={{ color: colors.mutedGray }}>
-              © 2025 Library. All rights reserved.
+              © Digital Sikh Pustkalya 2025. All rights reserved.
             </p>
           </div>
           <div className="col-md-6 text-center text-md-end">

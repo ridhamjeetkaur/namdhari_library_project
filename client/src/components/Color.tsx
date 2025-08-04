@@ -22,6 +22,7 @@ import React from "react"
   dark: '#1f2937',
   light: '#f8fafc',
   gray: '#6b7280',
+  brownCustom:'#332E1B'
 
 };
 

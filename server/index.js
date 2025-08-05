@@ -13,8 +13,23 @@ const __dirname = path.dirname(__filename);
 // Import database connection
 import { testConnection, closeConnection } from './db.js';
 
-// Import routes
+// Import existing routes
 import booksRoutes from './routes/books.js';
+
+// ******************************************************
+// ***** BEGIN: CHANGES TO INTEGRATE CONTACT FORM *****
+// ******************************************************
+
+// 1. Import the new contact message model
+//    (This is needed in your route handler, so it's good practice to have it imported)
+import ContactMessage from './models/ContactMessage.js';
+
+// 2. Import the new contact routes
+import contactRoutes from './routes/contactRoutes.js';
+
+// ******************************************************
+// ***** END: CHANGES TO INTEGRATE CONTACT FORM *****
+// ******************************************************
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,7 +41,7 @@ app.use(express.static(buildpath));
 
 // Middleware
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173'|| 'http://localhost:5000' ||'https://digitalsikhlibrary.vercel.app',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173' || 'http://localhost:5000' ||'https://digitalsikhlibrary.vercel.app',
     credentials: true
 }));
 
@@ -41,6 +56,18 @@ app.use('/covers', express.static(path.join(__dirname, 'public/covers')));
 
 // API Routes
 app.use('/api/books', booksRoutes);
+
+// ******************************************************
+// ***** BEGIN: CHANGES TO INTEGRATE CONTACT FORM *****
+// ******************************************************
+
+// 3. Add the new contact form route
+app.use('/api/contact', contactRoutes);
+
+// ******************************************************
+// ***** END: CHANGES TO INTEGRATE CONTACT FORM *****
+// ******************************************************
+
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -70,6 +97,7 @@ app.get('/', (req, res) => {
         database: 'MongoDB',
         endpoints: {
             books: '/api/books',
+            contact: '/api/contact', // 4. Updated the root endpoint to include the new contact route
             recommended: '/api/books/recommended',
             paginated: '/api/books/paginated',
             health: '/api/health'
@@ -130,6 +158,7 @@ const startServer = async () => {
             console.log(`📚 API Endpoints:`);
             console.log(`   - Health: http://localhost:${PORT}/api/health`);
             console.log(`   - Books: http://localhost:${PORT}/api/books`);
+            console.log(`   - Contact: http://localhost:${PORT}/api/contact`); // Added contact endpoint
             console.log(`   - Recommended: http://localhost:${PORT}/api/books/recommended`);
             console.log(`   - Paginated: http://localhost:${PORT}/api/books/paginated`);
         });

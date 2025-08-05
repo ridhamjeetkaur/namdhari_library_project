@@ -82,7 +82,7 @@ const PrivacyPage: React.FC = () => {
                 
                 {/* Information We Collect */}
                 <section className="bg-gradient-to-br from-[#fffef0] via-[#FED172]/10 to-[#F3742B]/5 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-lg border border-[#FED172]/30">
-                  <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="flex items-center gap-3 sm:gap-6 mb-4 sm:flex-row ">
                     <div className="bg-gradient-to-br from-[#F3742B] to-[#B83A14] p-3 sm:p-4 rounded-xl shadow-lg">
                       <Eye className="text-white w-5 h-5 sm:w-6 sm:h-6" />
                     </div>

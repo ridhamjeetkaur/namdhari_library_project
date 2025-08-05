@@ -18,7 +18,7 @@ export type Book = {
 
 // API Base URL - make sure this matches your backend
 // With:
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
+const API_BASE_URL = process.env.NODE_ENV === 'development' 
   ? 'https://namdhari-library-project.onrender.com/api' // Empty for production (same domain)
   : 'http://localhost:5000/api'; // For local development
 

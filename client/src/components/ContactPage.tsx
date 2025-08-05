@@ -14,7 +14,7 @@ const ContactPage: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const EXPRESS_API_URL = 'http://localhost:5000/api/contact';
+  const EXPRESS_API_URL = 'https://digitalsikhlibrary.vercel.app/api/contact';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

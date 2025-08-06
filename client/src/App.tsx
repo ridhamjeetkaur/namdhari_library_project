@@ -2,7 +2,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap import
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 // Import your components based on your provided file structure
@@ -20,6 +20,24 @@ import Index from './components/Index';
 // --- Placeholder Components for routes mentioned in Header ---
 // Create these files in 'src/components/' or 'src/pages/' if they don't exist yet
 const HomePage: React.FC = () => {
+ useEffect(() => {
+    // Set title
+    document.title = '📚 ਡਿਜੀਟਲ ਸਿੱਖ ਪੁਸਤਕਾਲਿਆ';
+    
+    // Add favicon using your existing logo
+    const favicon = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (favicon) {
+      favicon.href = '/src/assets/images/logo.png'; // Your logo path
+    } else {
+      const newFavicon = document.createElement('link');
+      newFavicon.rel = 'icon';
+      newFavicon.href = '/src/assets/images/logo.png';
+      document.head.appendChild(newFavicon);
+    }
+  }, []);
+  useEffect(() => {
+    document.title = 'ਡਿਜੀਟਲ ਸਿੱਖ ਪੁਸਤਕਾਲਿਆ'; // 👈 Change this!
+  }, []);
   return (
     <>
       <Index /> {/* Example: MainContent within the HomePage layout */}

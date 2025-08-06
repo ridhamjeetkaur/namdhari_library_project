@@ -32,6 +32,21 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
     };
   }, [isOpen, onClose]);
 
+  // Handle backdrop click
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    // Only close if clicking the backdrop itself, not its children
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle close button click
+  const handleCloseClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClose();
+  };
+
   if (!isOpen || !book) return null;
 
   const fullStars = Math.floor(book.rating || 0);
@@ -50,15 +65,91 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
 
   return (
     <>
+      {/* Enhanced Custom Styles */}
+      <style>{`
+        .modal-backdrop {
+          background: linear-gradient(135deg, rgba(97, 46, 55, 0.8), rgba(35, 22, 80, 0.6));
+          backdrop-filter: blur(12px);
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+          animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          max-height: 95vh;
+          overflow: hidden;
+        }
+        
+        .close-btn {
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .close-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+        
+        .close-btn-desktop {
+          background: rgba(243, 116, 43, 0.1);
+          border: 1px solid rgba(254, 209, 114, 0.3);
+        }
+        
+        .close-btn-desktop:hover {
+          background: rgba(243, 116, 43, 0.2);
+          transform: scale(1.05);
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+          from { 
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+          }
+          to { 
+            transform: scale(1) translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        .gradient-button {
+          background: linear-gradient(135deg, #F3742B, #B83A14);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gradient-button:hover {
+          background: linear-gradient(135deg, #B83A14, #612E37);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(243, 116, 43, 0.3);
+        }
+        
+        .secondary-button {
+          background: linear-gradient(135deg, #612E37, #231650);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .secondary-button:hover {
+          background: linear-gradient(135deg, #231650, #612E37);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(97, 46, 55, 0.3);
+        }
+      `}</style>
+
       {/* Enhanced Backdrop */}
       <div 
-        className="fixed inset-0 z-50 bg-gradient-to-br from-black/60 via-[#231650]/30 to-black/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
-        <div className="bg-gradient-to-br from-[#fffef0] to-white rounded-2xl sm:rounded-3xl max-w-6xl w-full max-h-[95vh] overflow-hidden shadow-2xl transform transition-all border border-[#FED172]/30">
+        className="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-2 sm:p-4"
+        onClick={handleBackdropClick}
+      >
+        {/* Modal Container */}
+        <div 
+          className="modal-content bg-gradient-to-br from-[#fffef0] to-white rounded-2xl sm:rounded-3xl max-w-6xl w-full shadow-2xl transform transition-all border border-[#FED172]/30"
+          onClick={(e) => e.stopPropagation()} // Prevent backdrop close when clicking modal content
+        >
           
           {/* Mobile Layout */}
           <div className="block lg:hidden">
@@ -71,8 +162,10 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
                 <h2 className="text-base sm:text-lg font-bold truncate">Book Details</h2>
               </div>
               <button
-                onClick={onClose}
-                className="p-2 hover:bg-white/20 rounded-xl transition-colors"
+                onClick={handleCloseClick}
+                className="close-btn p-2 rounded-xl transition-colors"
+                aria-label="Close modal"
+                type="button"
               >
                 <X size={20} className="text-white" />
               </button>
@@ -131,7 +224,7 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
                     href={book.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-[#F3742B] to-[#B83A14] hover:from-[#B83A14] hover:to-[#612E37] text-white py-3 sm:py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="gradient-button text-white py-3 sm:py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg"
                   >
                     <ExternalLink size={18} />
                     Read Now
@@ -142,7 +235,7 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
                     href={book.downloadLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-[#612E37] to-[#231650] hover:from-[#231650] hover:to-[#612E37] text-white py-3 sm:py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="secondary-button text-white py-3 sm:py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg"
                     download
                   >
                     <Download size={18} />
@@ -299,8 +392,10 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({
                   <p className="text-[#612E37] text-lg">Discover what makes this book special</p>
                 </div>
                 <button
-                  onClick={onClose}
-                  className="p-3 hover:bg-[#FED172]/20 rounded-xl transition-colors group border border-[#FED172]/30"
+                  onClick={handleCloseClick}
+                  className="close-btn-desktop p-3 rounded-xl transition-all group"
+                  aria-label="Close modal"
+                  type="button"
                 >
                   <X size={28} className="text-[#612E37] group-hover:text-[#231650]" />
                 </button>

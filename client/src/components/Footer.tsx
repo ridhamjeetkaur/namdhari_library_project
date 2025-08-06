@@ -43,11 +43,10 @@ const Footer = () => {
                   }}
                 />
               </div>
-              <span className="fw-bold fs-4 text-white">Digital Sikh Pustkalya</span>
+              <span className="fw-bold fs-4 text-white">ਡਿਜੀਟਲ ਸਿੱਖ ਪੁਸਤਕਾਲਿਆ</span>
             </div>
             <p style={{ color: colors.light }}>
-              Discover the richness of Punjabi literature. Our shelves are filled with stories that resonate with our culture and heritage. We offer a vast collection of books, from classic tales to modern masterpieces. Join us for literary events and celebrate the power of the written word. Come, read, and connect with your roots at our library.
-            </p>
+ਪੰਜਾਬੀ ਸਾਹਿਤ ਦੀ ਅਮੀਰੀ ਦੀ ਖੋਜ ਕਰੋ। ਸਾਡੀਆਂ ਸ਼ੈਲਫਾਂ ਉਨ੍ਹਾਂ ਕਹਾਣੀਆਂ ਨਾਲ ਭਰੀਆਂ ਹੋਈਆਂ ਹਨ ਜੋ ਸਾਡੇ ਸੱਭਿਆਚਾਰ ਅਤੇ ਵਿਰਾਸਤ ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਹਨ। ਅਸੀਂ ਕਲਾਸਿਕ ਕਹਾਣੀਆਂ ਤੋਂ ਲੈ ਕੇ ਆਧੁਨਿਕ ਮਾਸਟਰਪੀਸ ਤੱਕ, ਕਿਤਾਬਾਂ ਦਾ ਇੱਕ ਵਿਸ਼ਾਲ ਸੰਗ੍ਰਹਿ ਪੇਸ਼ ਕਰਦੇ ਹਾਂ। ਸਾਹਿਤਕ ਸਮਾਗਮਾਂ ਲਈ ਸਾਡੇ ਨਾਲ ਜੁੜੋ ਅਤੇ ਲਿਖਤੀ ਸ਼ਬਦ ਦੀ ਸ਼ਕਤੀ ਦਾ ਜਸ਼ਨ ਮਨਾਓ। ਸਾਡੀ ਲਾਇਬ੍ਰੇਰੀ ਵਿੱਚ ਆਓ, ਪੜ੍ਹੋ ਅਤੇ ਆਪਣੀਆਂ ਜੜ੍ਹਾਂ ਨਾਲ ਜੁੜੋ।            </p>
             <div className="d-flex gap-3 mt-3">
               {socialLinks.map((social, index) => (
                 <a

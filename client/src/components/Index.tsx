@@ -29,19 +29,18 @@ const Index: React.FC = () => {
                 ਪੰਜਾਬੀ ਕਿਤਾਬਾਂ ਦਾ
               </span>
               <span className="bg-gradient-to-r from-[#F3742B] via-[#B83A14] to-[#612E37] bg-clip-text text-transparent">
-                Digital Sikh Pustkalya
+                ਡਿਜੀਟਲ ਸਿੱਖ ਪੁਸਤਕਾਲਿਆ 
               </span>
             </h1>
 
             {/* Hero Description */}
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-[#612E37] mb-8 sm:mb-12 max-w-5xl mx-auto leading-relaxed px-4 sm:px-0">
-              Discover thousands of Punjabi books, sacred texts, and literature.
+               ਹਜ਼ਾਰਾਂ ਪੰਜਾਬੀ ਕਿਤਾਬਾਂ, ਪਵਿੱਤਰ ਗ੍ਰੰਥਾਂ ਅਤੇ ਸਾਹਿਤ ਦੀ ਖੋਜ ਕਰੋ।
               <span className="block mt-2 sm:mt-3 font-bold text-[#231650] flex items-center justify-center gap-2">
                 <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-[#F3742B]" />
-                View online or download for offline reading
-                <Download className="w-5 h-5 sm:w-6 sm:h-6 text-[#F3742B]" />
+ਔਨਲਾਈਨ ਦੇਖੋ ਜਾਂ ਔਫਲਾਈਨ ਪੜ੍ਹਨ ਲਈ ਡਾਊਨਲੋਡ ਕਰੋ                <Download className="w-5 h-5 sm:w-6 sm:h-6 text-[#F3742B]" />
               </span>
-              on any device.
+              ਕਿਸੇ ਵੀ ਡਿਵਾਈਸ 'ਤੇ।
             </p>
 
             {/* Hero CTA */}
@@ -85,7 +84,7 @@ const Index: React.FC = () => {
             {[
               {
                 icon: Eye,
-                title: "Online Reading",
+                title: "ਔਨਲਾਈਨ ਪੜ੍ਹਨਾ (Online Reading)",
                 description: "Read books directly in your browser with our beautiful, responsive reader interface.",
                 highlight: "View Online",
                 color: "from-[#F3742B] to-[#B83A14]",
@@ -93,23 +92,16 @@ const Index: React.FC = () => {
               },
               {
                 icon: Download,
-                title: "Download Books",
+                title: "ਕਿਤਾਬਾਂ ਡਾਊਨਲੋਡ ਕਰੋ (Download Books)",
                 description: "Download any book for offline reading. Keep your favorite Punjabi literature with you always.",
                 highlight: "Download PDF",
                 color: "from-[#B83A14] to-[#612E37]",
                 bgColor: "from-[#F3742B]/20 to-[#B83A14]/10"
               },
-              {
-                icon: Search,
-                title: "Smart Search",
-                description: "Find books by title, author, or content. Search in Punjabi, Hindi, or English languages.",
-                highlight: "Multi-language",
-                color: "from-[#612E37] to-[#231650]",
-                bgColor: "from-[#B83A14]/20 to-[#612E37]/10"
-              },
+             
               {
                 icon: Book,
-                title: "Vast Collection",
+                title: "ਵਿਸ਼ਾਲ ਸੰਗ੍ਰਹਿ (Vast Collection)",
                 description: "Thousands of Punjabi books including religious texts, poetry, novels, and historical literature.",
                 highlight: "500+ Books",
                 color: "from-[#231650] to-[#F3742B]",

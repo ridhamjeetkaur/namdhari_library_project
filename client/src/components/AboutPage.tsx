@@ -29,7 +29,7 @@ const AboutPage: React.FC = () => {
                 </div>
                 <div className="text-center sm:text-left">
                   <h1 className="text-3xl sm:text-5xl font-bold mb-3 leading-tight">
-                    About Our Digital Library
+                    About Our Digital Sikh Pustkalya
                   </h1>
                   <p className="text-xl text-[#FED172] font-medium flex items-center justify-center sm:justify-start gap-2">
                     <Sparkles className="w-5 h-5" />
@@ -52,10 +52,14 @@ const AboutPage: React.FC = () => {
                     <Users className="w-10 h-10 text-white" />
                   </div>
                   
-                  <h2 className="text-3xl sm:text-4xl font-bold text-[#231650] mb-6">Our Mission</h2>
+                  <h2 className="text-3xl sm:text-4xl font-bold text-[#231650] mb-6">ਸਾਡਾ ਮਿਸ਼ਨ (Our Mission)</h2>
+                 
                   <p className="text-lg sm:text-xl text-[#612E37] leading-relaxed max-w-4xl mx-auto">
+                     <p>ਅਸੀਂ ਆਪਣੇ ਡਿਜੀਟਲ ਲਾਇਬ੍ਰੇਰੀ ਪਲੇਟਫਾਰਮ ਰਾਹੀਂ ਗਿਆਨ ਨੂੰ ਹਰ ਕਿਸੇ ਲਈ ਪਹੁੰਚਯੋਗ ਬਣਾਉਣ ਲਈ ਸਮਰਪਿਤ ਹਾਂ।
+ਸਾਡਾ ਮਿਸ਼ਨ ਸਿੱਖਿਆ ਦਾ ਲੋਕਤੰਤਰੀਕਰਨ ਕਰਨਾ ਅਤੇ ਡਿਜੀਟਲ ਯੁੱਗ ਵਿੱਚ ਪੜ੍ਹਨ ਲਈ ਪਿਆਰ ਪੈਦਾ ਕਰਨਾ ਹੈ।</p>
                     We are dedicated to making knowledge accessible to everyone through our digital library platform.
                     Our mission is to democratize education and foster a love for reading in the digital age.
+                   
                   </p>
                 </div>
               </section>
@@ -79,7 +83,7 @@ const AboutPage: React.FC = () => {
                         <h3 className="font-bold text-xl text-[#231650]">Digital Collection</h3>
                       </div>
                       <p className="text-[#612E37] leading-relaxed">
-                        We curate and maintain a vast collection of digital books, documents, and educational resources
+                        We maintain a vast collection of digital books, documents, and educational resources
                         to support learning and research across various disciplines.
                       </p>
                     </div>
@@ -120,6 +124,11 @@ const AboutPage: React.FC = () => {
                       </h3>
                       <div className="text-red-700 space-y-4 leading-relaxed">
                         <p className="font-medium">
+                          <p>ਇਹ ਇੱਕ ਵਿਦਿਅਕ ਲਾਇਬ੍ਰੇਰੀ ਪ੍ਰੋਜੈਕਟ ਹੈ। ਇਸ ਪਲੇਟਫਾਰਮ 'ਤੇ ਉਪਲਬਧ ਕਿਤਾਬਾਂ ਅਤੇ ਸਮੱਗਰੀ ਸਿਰਫ਼ ਵਿਦਿਅਕ ਅਤੇ ਖੋਜ ਦੇ ਉਦੇਸ਼ਾਂ ਲਈ ਇੰਟਰਨੈੱਟ 'ਤੇ ਵੱਖ-ਵੱਖ ਜਨਤਕ ਤੌਰ 'ਤੇ ਉਪਲਬਧ ਸਰੋਤਾਂ ਤੋਂ ਇਕੱਠੀ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।
+<p>
+ਅਸੀਂ ਕਿਸੇ ਵੀ ਕਾਪੀਰਾਈਟ ਸਮੱਗਰੀ ਦੀ ਮਾਲਕੀ ਦਾ ਦਾਅਵਾ ਨਹੀਂ ਕਰਦੇ ਹਾਂ। ਸਾਰੀ ਸਮੱਗਰੀ ਉਨ੍ਹਾਂ ਦੇ ਸਬੰਧਤ ਲੇਖਕਾਂ, ਪ੍ਰਕਾਸ਼ਕਾਂ ਅਤੇ ਕਾਪੀਰਾਈਟ ਧਾਰਕਾਂ ਦੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਕਾਪੀਰਾਈਟ ਮਾਲਕ ਹੋ ਅਤੇ ਮੰਨਦੇ ਹੋ ਕਿ ਤੁਹਾਡੇ ਕੰਮ ਦੀ ਅਣਉਚਿਤ ਵਰਤੋਂ ਕੀਤੀ ਗਈ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਤੁਰੰਤ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।
+</p>
+ਇਹ ਪ੍ਰੋਜੈਕਟ ਸਿਰਫ਼ ਵਿਦਿਅਕ ਉਦੇਸ਼ਾਂ ਅਤੇ ਗੈਰ-ਵਪਾਰਕ ਵਰਤੋਂ ਲਈ ਹੈ। ਉਪਭੋਗਤਾਵਾਂ ਨੂੰ ਲੇਖਕਾਂ ਅਤੇ ਪ੍ਰਕਾਸ਼ਕਾਂ ਦਾ ਸਮਰਥਨ ਕਰਨ ਲਈ ਅਸਲ ਕਾਪੀਆਂ ਖਰੀਦਣ ਲਈ ਉਤਸ਼ਾਹਿਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।</p>
                           This is an educational library project. The books and content available on this platform
                           are collected from various publicly available sources across the internet for educational
                           and research purposes only.

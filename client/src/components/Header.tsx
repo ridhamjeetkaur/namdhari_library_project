@@ -25,7 +25,6 @@ const Header: React.FC = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    // Prevent body scroll when mobile menu is open for better UX
     document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : 'auto';
   };
 
@@ -36,60 +35,270 @@ const Header: React.FC = () => {
 
   return (
     <>
+      {/* Enhanced Custom Styles */}
+      <style>{`
+        .enhanced-navbar {
+          background: ${isScrolled 
+            ? 'rgba(255, 255, 255, 0.95)' 
+            : 'linear-gradient(135deg, #F3742B 0%, #B83A14 100%)'
+          };
+          backdrop-filter: blur(20px);
+          border: none;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: ${isScrolled 
+            ? '0 8px 32px rgba(243, 116, 43, 0.1)' 
+            : '0 4px 20px rgba(184, 58, 20, 0.2)'
+          };
+        }
+        
+        .logo-container {
+          background: linear-gradient(135deg, #FED172, #F3742B) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .logo-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.6s;
+        }
+        
+        .logo-hover:hover .logo-container::before {
+          left: 100%;
+        }
+        
+        .logo-hover:hover .logo-container {
+          transform: scale(1.05);
+          box-shadow: 0 8px 25px rgba(243, 116, 43, 0.3);
+        }
+        
+        .brand-text {
+          background: ${isScrolled 
+            ? 'linear-gradient(135deg, #F3742B, #B83A14)' 
+            : 'linear-gradient(135deg, #ffffff, #FED172)'
+          };
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 800 !important;
+          letter-spacing: -0.5px;
+        }
+        
+        .nav-link-enhanced {
+          position: relative;
+          overflow: hidden;
+          font-weight: 600;
+          letter-spacing: 0.3px;
+          border-radius: 50px !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: ${isScrolled ? '#F3742B' : 'rgba(255, 255, 255, 0.9)'} !important;
+        }
+        
+        .nav-link-enhanced::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #F3742B, #B83A14);
+          transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: -1;
+        }
+        
+        .nav-link-enhanced:hover::before {
+          left: 0;
+        }
+        
+        .nav-link-enhanced:hover {
+          color: white !important;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(243, 116, 43, 0.3);
+        }
+        
+        .nav-link-enhanced.active {
+          background: linear-gradient(135deg, #F3742B, #B83A14) !important;
+          color: white !important;
+          box-shadow: 0 6px 20px rgba(243, 116, 43, 0.4);
+          transform: translateY(-1px);
+        }
+        
+        .mobile-menu-btn {
+          background: ${isScrolled 
+            ? 'rgba(243, 116, 43, 0.1)' 
+            : 'rgba(255, 255, 255, 0.2)'
+          } !important;
+          border-radius: 15px !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .mobile-menu-btn:hover {
+          background: linear-gradient(135deg, #F3742B, #B83A14) !important;
+          transform: scale(1.05);
+          box-shadow: 0 8px 25px rgba(243, 116, 43, 0.3);
+        }
+        
+        .mobile-menu-btn:hover .menu-icon {
+          color: white !important;
+        }
+        
+        .menu-icon {
+          color: ${isScrolled ? '#F3742B' : 'white'} !important;
+          transition: color 0.3s ease;
+        }
+        
+        .mobile-backdrop {
+          background: rgba(97, 46, 55, 0.8);
+          backdrop-filter: blur(10px);
+          animation: fadeIn 0.3s ease;
+        }
+        
+        .mobile-menu-slide {
+          background: linear-gradient(135deg, #F3742B 0%, #612E37 100%);
+          animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu-content {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          padding: 2rem 0;
+        }
+        
+        .mobile-nav-item {
+          background: rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          margin-bottom: 0.5rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: white !important;
+        }
+        
+        .mobile-nav-item:hover {
+          background: rgba(255, 255, 255, 0.2) !important;
+          transform: translateX(10px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+          color: white !important;
+        }
+        
+        .mobile-nav-item.active {
+          background: rgba(255, 255, 255, 0.3) !important;
+          color: white !important;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mobile-nav-arrow {
+          opacity: 0.7;
+          transition: all 0.3s ease;
+          font-size: 1.2rem;
+        }
+        
+        .mobile-nav-item:hover .mobile-nav-arrow {
+          opacity: 1;
+          transform: translateX(5px);
+        }
+        
+        .close-btn-mobile {
+          background: rgba(255, 255, 255, 0.2) !important;
+          border-radius: 15px !important;
+          transition: all 0.3s ease;
+        }
+        
+        .close-btn-mobile:hover {
+          background: rgba(255, 255, 255, 0.3) !important;
+          transform: scale(1.1);
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+          from { 
+            transform: translateX(100%); 
+            opacity: 0;
+          }
+          to { 
+            transform: translateX(0); 
+            opacity: 1;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .brand-text {
+            font-size: 1rem !important;
+          }
+        }
+        
+        .pulse-animation {
+          animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
+
       <nav 
-        className={`navbar navbar-light border-bottom shadow-sm sticky-top transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white py-2 border-warning shadow-lg' 
-            : 'bg-warning-subtle py-3 border-warning'
+        className={`navbar navbar-expand-lg sticky-top enhanced-navbar ${
+          isScrolled ? 'py-2' : 'py-3'
         }`}
         role="navigation"
         aria-label="Main navigation"
       >
         <div className="container-fluid px-4 d-flex align-items-center justify-content-between">
-          {/* Enhanced Logo with hover effects */}
+          {/* Enhanced Logo */}
           <Link 
             className="navbar-brand d-flex align-items-center text-decoration-none logo-hover" 
             to="/"
             aria-label="Digital Sikh Pustkalya - Home"
           >
             <div 
-              className={`rounded-3 d-flex align-items-center justify-content-center me-3 logo-container transition-all ${
-                isScrolled ? 'bg-warning shadow-sm' : 'bg-warning shadow'
+              className={`logo-container rounded-4 d-flex align-items-center justify-content-center me-3 ${
+                isScrolled ? '' : 'pulse-animation'
               }`}
-              style={{ width: '45px', height: '45px' }}
+              style={{ width: '50px', height: '50px' }}
             >
               <img 
                 src={logo} 
                 alt="Digital Sikh Pustkalya Logo" 
                 className="logo-image"
-                style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+                style={{ width: '30px', height: '30px', objectFit: 'contain' }}
                 loading="lazy"
               />
             </div>
             <div className="d-flex flex-column">
-              <span className={`fw-bold lh-1 brand-text transition-all ${
-                isScrolled ? 'text-warning-emphasis fs-5' : 'text-warning-emphasis fs-4'
+              <span className={`brand-text lh-1 transition-all ${
+                isScrolled ? 'fs-5' : 'fs-4'
               } d-none d-sm-inline`}>
                 Digital Sikh Pustkalya
               </span>
-              <span className="text-warning fs-6 d-none d-md-inline opacity-75">
+              <span className={`${isScrolled ? 'text-muted' : 'text-white-50'} fs-6 d-none d-md-inline`}>
                 Digital Library
               </span>
-              <span className="text-warning-emphasis fw-bold fs-5 d-sm-none">
+              <span className="brand-text fw-bold fs-5 d-sm-none">
                 DSP
               </span>
             </div>
           </Link>
 
-          {/* Enhanced Desktop Navigation Links */}
-          <div className="d-none d-md-flex align-items-center gap-2">
+          {/* Enhanced Desktop Navigation */}
+          <div className="d-none d-md-flex align-items-center gap-3">
             <NavLink
               to="/main-content"
               className={({ isActive }) =>
-                `btn btn-link text-decoration-none px-4 py-2 rounded-pill fw-medium nav-link-custom transition-all ${
-                  isActive 
-                    ? 'text-white bg-warning shadow-sm border border-warning-emphasis' 
-                    : 'text-warning-emphasis hover-lift'
+                `nav-link-enhanced btn text-decoration-none px-4 py-2 ${
+                  isActive ? 'active' : ''
                 }`
               }
             >
@@ -98,10 +307,8 @@ const Header: React.FC = () => {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                `btn btn-link text-decoration-none px-4 py-2 rounded-pill fw-medium nav-link-custom transition-all ${
-                  isActive 
-                    ? 'text-white bg-warning shadow-sm border border-warning-emphasis' 
-                    : 'text-warning-emphasis hover-lift'
+                `nav-link-enhanced btn text-decoration-none px-4 py-2 ${
+                  isActive ? 'active' : ''
                 }`
               }
             >
@@ -110,10 +317,8 @@ const Header: React.FC = () => {
             <NavLink
               to="/contact"
               className={({ isActive }) =>
-                `btn btn-link text-decoration-none px-4 py-2 rounded-pill fw-medium nav-link-custom transition-all ${
-                  isActive 
-                    ? 'text-white bg-warning shadow-sm border border-warning-emphasis' 
-                    : 'text-warning-emphasis hover-lift'
+                `nav-link-enhanced btn text-decoration-none px-4 py-2 ${
+                  isActive ? 'active' : ''
                 }`
               }
             >
@@ -122,10 +327,8 @@ const Header: React.FC = () => {
             <NavLink
               to="/privacy"
               className={({ isActive }) =>
-                `btn btn-link text-decoration-none px-4 py-2 rounded-pill fw-medium nav-link-custom transition-all ${
-                  isActive 
-                    ? 'text-white bg-warning shadow-sm border border-warning-emphasis' 
-                    : 'text-warning-emphasis hover-lift'
+                `nav-link-enhanced btn text-decoration-none px-4 py-2 ${
+                  isActive ? 'active' : ''
                 }`
               }
             >
@@ -133,71 +336,67 @@ const Header: React.FC = () => {
             </NavLink>
           </div>
 
-          {/* Enhanced Mobile Toggler */}
+          {/* Enhanced Mobile Menu Button */}
           <button
-            className="d-md-none btn p-2 rounded-circle mobile-menu-btn transition-all"
+            className="d-md-none mobile-menu-btn btn p-3"
             onClick={toggleMobileMenu}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
           >
-            <div className="menu-icon-wrapper">
-              {isMobileMenuOpen ? 
-                <X className="text-warning-emphasis" size={24} /> : 
-                <Menu className="text-warning-emphasis" size={24} />
-              }
-            </div>
+            {isMobileMenuOpen ? 
+              <X className="menu-icon" size={24} /> : 
+              <Menu className="menu-icon" size={24} />
+            }
           </button>
         </div>
       </nav>
 
-      {/* Enhanced Mobile Fullscreen Menu */}
+      {/* Enhanced Mobile Menu */}
       {isMobileMenuOpen && (
         <>
-          {/* Animated Backdrop */}
           <div 
             className="position-fixed top-0 start-0 w-100 vh-100 mobile-backdrop"
             onClick={closeMobileMenu}
             aria-hidden="true"
+            style={{ zIndex: 1040 }}
           />
           
-          {/* Enhanced Mobile Menu with animations */}
           <div 
-            className="position-fixed top-0 start-0 w-100 vh-100 mobile-menu-slide z-3 overflow-auto"
+            className="position-fixed top-0 start-0 w-100 vh-100 mobile-menu-slide"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
+            style={{ zIndex: 1045 }}
           >
             <div className="mobile-menu-content">
-              {/* Header */}
-              <div className="d-flex justify-content-between align-items-center mb-4 p-4 border-bottom border-warning-subtle">
+              {/* Enhanced Header */}
+              <div className="d-flex justify-content-between align-items-center mb-4 p-4 border-bottom border-white border-opacity-25">
                 <div className="d-flex align-items-center">
-                  <div className="bg-warning rounded-3 d-flex align-items-center justify-content-center me-3 shadow">
+                  <div className="logo-container rounded-3 d-flex align-items-center justify-content-center me-3">
                     <img 
                       src={logo} 
                       alt="Logo" 
-                      style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+                      style={{ width: '28px', height: '28px', objectFit: 'contain' }}
                     />
                   </div>
-                  <span className="fs-4 fw-bold text-warning-emphasis">Menu</span>
+                  <span className="fs-4 fw-bold text-white">Navigation</span>
                 </div>
                 <button 
-                  className="btn p-2 rounded-circle close-btn-mobile"
+                  className="close-btn-mobile btn p-2"
                   onClick={closeMobileMenu}
                   aria-label="Close menu"
                 >
-                  <X className="text-warning-emphasis" size={24} />
+                  <X className="text-white" size={24} />
                 </button>
               </div>
 
-              {/* Enhanced Mobile Links */}
-              <div className="d-flex flex-column gap-2 p-4">
+              {/* Enhanced Mobile Navigation Links */}
+              <div className="d-flex flex-column gap-3 p-4 flex-grow-1">
                 <NavLink 
                   to="/" 
                   className={({ isActive }) =>
-                    `nav-link fs-5 p-4 rounded-4 text-decoration-none mobile-nav-item transition-all ${
-                      isActive 
-                        ? 'text-white bg-warning shadow border border-warning-emphasis' 
-                        : 'text-warning-emphasis mobile-nav-hover'
+                    `mobile-nav-item nav-link fs-5 p-4 rounded-4 text-decoration-none ${
+                      isActive ? 'active' : ''
                     }`
                   }
                   onClick={closeMobileMenu}
@@ -211,10 +410,8 @@ const Header: React.FC = () => {
                 <NavLink 
                   to="/main-content" 
                   className={({ isActive }) =>
-                    `nav-link fs-5 p-4 rounded-4 text-decoration-none mobile-nav-item transition-all ${
-                      isActive 
-                        ? 'text-white bg-warning shadow border border-warning-emphasis' 
-                        : 'text-warning-emphasis mobile-nav-hover'
+                    `mobile-nav-item nav-link fs-5 p-4 rounded-4 text-decoration-none ${
+                      isActive ? 'active' : ''
                     }`
                   }
                   onClick={closeMobileMenu}
@@ -228,10 +425,8 @@ const Header: React.FC = () => {
                 <NavLink 
                   to="/about" 
                   className={({ isActive }) =>
-                    `nav-link fs-5 p-4 rounded-4 text-decoration-none mobile-nav-item transition-all ${
-                      isActive 
-                        ? 'text-white bg-warning shadow border border-warning-emphasis' 
-                        : 'text-warning-emphasis mobile-nav-hover'
+                    `mobile-nav-item nav-link fs-5 p-4 rounded-4 text-decoration-none ${
+                      isActive ? 'active' : ''
                     }`
                   }
                   onClick={closeMobileMenu}
@@ -245,10 +440,8 @@ const Header: React.FC = () => {
                 <NavLink 
                   to="/contact" 
                   className={({ isActive }) =>
-                    `nav-link fs-5 p-4 rounded-4 text-decoration-none mobile-nav-item transition-all ${
-                      isActive 
-                        ? 'text-white bg-warning shadow border border-warning-emphasis' 
-                        : 'text-warning-emphasis mobile-nav-hover'
+                    `mobile-nav-item nav-link fs-5 p-4 rounded-4 text-decoration-none ${
+                      isActive ? 'active' : ''
                     }`
                   }
                   onClick={closeMobileMenu}
@@ -262,10 +455,8 @@ const Header: React.FC = () => {
                 <NavLink 
                   to="/privacy" 
                   className={({ isActive }) =>
-                    `nav-link fs-5 p-4 rounded-4 text-decoration-none mobile-nav-item transition-all ${
-                      isActive 
-                        ? 'text-white bg-warning shadow border border-warning-emphasis' 
-                        : 'text-warning-emphasis mobile-nav-hover'
+                    `mobile-nav-item nav-link fs-5 p-4 rounded-4 text-decoration-none ${
+                      isActive ? 'active' : ''
                     }`
                   }
                   onClick={closeMobileMenu}
@@ -277,18 +468,16 @@ const Header: React.FC = () => {
                 </NavLink>
               </div>
 
-              {/* Footer */}
-              <div className="mt-auto p-4 border-top border-warning-subtle">
-                <p className="text-center text-warning fs-6 mb-0 opacity-75">
-                  Digital Sikh Pustkalya
+              {/* Enhanced Footer */}
+              <div className="mt-auto p-4 border-top border-white border-opacity-25">
+                <p className="text-center text-white fs-6 mb-0 opacity-75">
+                  Digital Sikh Pustkalya © 2025
                 </p>
               </div>
             </div>
           </div>
         </>
       )}
-
-      
     </>
   );
 };

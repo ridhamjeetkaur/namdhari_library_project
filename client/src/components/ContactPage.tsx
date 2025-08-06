@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, AlertTriangle, CheckCircle, XCircle, Send, Sparkles } from 'lucide-react';
+import { Mail, Phone, AlertTriangle, CheckCircle, XCircle, Send, Sparkles } from 'lucide-react';
 import Footer from './Footer';
 
 const ContactPage: React.FC = () => {
@@ -101,24 +101,18 @@ const ContactPage: React.FC = () => {
                       {
                         icon: Mail,
                         title: "Email",
-                        content: "library@example.com",
+                        content: "digitalsikhpustkalya@gmail.com",
                         color: "from-[#F3742B] to-[#B83A14]",
                         bgColor: "from-[#FED172]/20 to-[#F3742B]/10"
                       },
                       {
                         icon: Phone,
                         title: "Phone",
-                        content: "+1 (555) 123-4567",
+                        content: "+91 7527828430",
                         color: "from-[#B83A14] to-[#612E37]",
                         bgColor: "from-[#F3742B]/20 to-[#B83A14]/10"
                       },
-                      {
-                        icon: MapPin,
-                        title: "Address",
-                        content: "123 Library Street\nEducation City, EC 12345",
-                        color: "from-[#612E37] to-[#231650]",
-                        bgColor: "from-[#B83A14]/20 to-[#612E37]/10"
-                      }
+                      
                     ].map((contact, index) => (
                       <div key={index} className="group hover:scale-105 transition-all duration-300">
                         <div className={`bg-gradient-to-br ${contact.bgColor} p-6 rounded-2xl shadow-lg hover:shadow-xl border border-[#FED172]/30`}>
@@ -149,7 +143,7 @@ const ContactPage: React.FC = () => {
                         </h3>
                         <p className="text-red-700 text-sm leading-relaxed">
                           If you are a copyright owner and believe your work has been used without permission,
-                          please contact us immediately at <span className="font-bold bg-red-200 px-2 py-1 rounded">copyright@example.com</span>.
+                          please contact us immediately at <span className="font-bold bg-red-200 px-2 py-1 rounded">digitalsikhpustkalya@gmail.com</span>.
                           We will promptly investigate and remove any infringing content.
                         </p>
                       </div>

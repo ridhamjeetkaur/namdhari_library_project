@@ -273,7 +273,7 @@ const Header: React.FC = () => {
                 src={logo} 
                 alt="Digital Sikh Pustkalya Logo" 
                 className="logo-image"
-                style={{ width: '30px', height: '30px', objectFit: 'contain' }}
+                style={{ width: '50px', height: '50px', objectFit: 'contain' }}
                 loading="lazy"
               />
             </div>

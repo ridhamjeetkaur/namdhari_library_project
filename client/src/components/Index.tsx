@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Search, Download, Eye, Globe, Star, ChevronRight, FileText, Heart, Sparkles, Users, Shield } from 'lucide-react';
+import { Book, Download, Eye, Globe, Star, ChevronRight, FileText, Heart, Sparkles, Users, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index: React.FC = () => {
